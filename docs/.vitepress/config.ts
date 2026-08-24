@@ -65,7 +65,10 @@ export default defineConfig({
           { text: "0007 Extension Contributions", link: "/adr/adr-0007-extension-contributions" },
           { text: "0008 Runtime Supervisor", link: "/adr/adr-0008-runtime-supervisor" },
           { text: "0009 Context Policy", link: "/adr/adr-0009-context-policy" },
-          { text: "0010 Agent Risk Policy", link: "/adr/adr-0010-agent-risk-policy" }
+          { text: "0010 Agent Risk Policy", link: "/adr/adr-0010-agent-risk-policy" },
+          { text: "0011 Cross Session Memory", link: "/adr/adr-0011-cross-session-memory" },
+          { text: "0012 Unified Agent Loop", link: "/adr/adr-0012-unified-agent-loop" },
+          { text: "0013 Agent Network Tools", link: "/adr/adr-0013-agent-network-tools" }
         ]
       }
     ],
