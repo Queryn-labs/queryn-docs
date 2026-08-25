@@ -33,6 +33,7 @@
 - Project-scoped индекс и connectors.
 - Local и cloud model providers.
 - Проверяемые model dependencies.
+- Пользовательские названия провайдеров и полезные характеристики моделей в каталоге моделей пикера вместо технических идентификаторов вроде `local.ollama` и `organization_owner`.
 
 ## 6. Агентная оркестрация
 
