@@ -14,7 +14,7 @@
 
 ## osnova-desktop
 
-Windows-first Electron-приложение с React renderer и TypeScript-сервисами.
+Windows/macOS Electron-приложение с React renderer и TypeScript-сервисами.
 
 ## osnova-plugin-sdk
 
