@@ -1,0 +1,2 @@
+[     335ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:5180/favicon.ico:0
+[  126782ms] [INFO] <Suspense> is an experimental feature and its API will likely change. @ http://127.0.0.1:5180/.vitepress/cache/deps/chunk-HGLQ7K26.js?v=8006026d:9441

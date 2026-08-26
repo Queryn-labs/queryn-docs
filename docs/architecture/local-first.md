@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Local-First архитектура
 
 Проект Osnova принадлежит пользователю как директория на диске.

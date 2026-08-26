@@ -1,3 +1,9 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: accepted
+---
+
 # ADR 0013: Сетевые инструменты агента
 
 ## Статус

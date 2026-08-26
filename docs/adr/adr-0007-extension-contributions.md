@@ -1,3 +1,9 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: accepted
+---
+
 # ADR 0007: Extension contributions
 
 ## Статус

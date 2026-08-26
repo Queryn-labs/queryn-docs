@@ -1,8 +1,15 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: superseded
+supersededBy: 7
+---
+
 # ADR 0004: Система плагинов
 
 ## Статус
 
-Заменено ADR 0007 «Extension Contributions».
+Решение заменено ADR 0007.
 
 ## Контекст
 

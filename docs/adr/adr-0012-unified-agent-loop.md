@@ -1,3 +1,9 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: accepted
+---
+
 # ADR 0012: Единый диалоговый агентный движок
 
 ## Статус
@@ -21,8 +27,11 @@ tool-loop (ядро агента) и конвейер — отдельный orc
 ## Решение
 
 Оставлен единый движок — диалоговый tool-loop ядра агента (`AgentKernel`).
-Из рантайма удалены `plan`, `execute`, `approve`, `cancel`, персистентность
-agent-runs и связанные RPC-методы; из CLI — команды `agent:plan|execute|approve|cancel`;
+Из рантайма удалены pipeline-specific `agent.plan|execute|approve|cancel`,
+персистентность `agent-runs` и связанные RPC-методы. Conversational
+`agent.chat.cancel` и `agent.chat.approve` остаются: первый отменяет chat run,
+второй подтверждает ожидающую risk-операцию и возобновляет его. Из CLI удалены
+команды `agent:plan|execute|approve|cancel`;
 из десктопа — настройка «Режим работы агента» и pipeline-ветки UI.
 
 Головной процесс оркестрации сохранён в усечённом виде (`AgentOrchestrator`):

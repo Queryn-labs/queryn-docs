@@ -1,3 +1,9 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: accepted
+---
+
 # ADR 0006: Артефакты и переносимые сессии
 
 ## Статус
@@ -6,10 +12,11 @@
 
 ## Решение
 
-Пользовательские результаты описываются ArtifactDescriptor с обычными файловыми
-payloads и provenance. Сессии хранятся в папке проекта как session metadata и
-append-only JSONL events. `.osnova` не хранит единственную копию пользовательской
-истории.
+Результаты, опубликованные operation flow, описываются ArtifactDescriptor с
+обычными файловыми payloads и provenance. Нативные notes и assets остаются
+обычными файлами и не получают ArtifactDescriptor автоматически. Сессии хранятся
+в папке проекта как session metadata и append-only JSONL events. `.osnova` не
+хранит единственную копию пользовательской истории.
 
 ## Последствия
 

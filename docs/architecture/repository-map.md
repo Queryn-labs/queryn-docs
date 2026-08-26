@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Карта репозиториев
 
 ## osnova-docs

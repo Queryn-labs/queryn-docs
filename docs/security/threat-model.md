@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Threat model Osnova Reborn
 
 ## Активы
@@ -25,11 +30,11 @@ Renderer не получает Node, shell или произвольный RPC. 
 |---|---|
 | path traversal / symlink escape | project-relative normalization, realpath/lstat, isolated outbox |
 | extension package bomb | package и unpacked size limits, per-file SHA-256 |
-| подмена версии | immutable directory, integrity/signature, atomic active pointer |
+| подмена версии | immutable directory, per-file SHA-256, atomic active pointer; signed catalog remains target |
 | prompt injection | model output проходит schema + policy; данные не создают permission |
 | renderer compromise | Electron sandbox, sender/frame validation, CSP, narrow preload |
 | container escape surface | no Docker socket/project mount/root/capabilities/network by default |
-| утечка cloud provider | Context Envelope recipients/sensitivity, explicit approval |
+| утечка cloud provider | Для явного `context.resolve` работают recipients/sensitivity и approval. В `agent.chat` project.read guard ограничивает sensitive cloud payload, но project search и snippets идут отдельным путём |
 | повтор необратимого шага | retry только idempotent; Agent сам не повторяет destructive step |
 | crash посередине публикации | staging/outbox, atomic rename, terminal job после audit write |
 | кража credentials из проекта | Keychain/DPAPI, secrets absent from project and logs |
@@ -37,3 +42,8 @@ Renderer не получает Node, shell или произвольный RPC. 
 ## Остаточные риски
 
 Node Permission Model — defense-in-depth, не защита от malicious code. Native process и разрешённый remote server требуют доверия. OCI уменьшает поверхность, но не делает Docker daemon безопасным автоматически. Подпись подтверждает издателя и целостность, а не отсутствие уязвимостей.
+
+Текущий агентный цикл не строит запрос через ContextBroker: он передаёт модели
+историю, observations и результаты project tools. Поэтому preview не является
+аудитом исходящего chat payload, а сквозная фильтрация sensitivity для поисковых
+snippets и структурированная атрибуция источников остаются целевой возможностью.

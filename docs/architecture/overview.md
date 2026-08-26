@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Обзор архитектуры
 
 Osnova разделена на небольшие репозитории со стабильными зонами ответственности.
@@ -29,3 +34,16 @@ Desktop / CLI
 
 Сторонний runtime не получает прямой доступ на запись в папку проекта. Он
 получает материализованные inputs и возвращает artifact candidates.
+
+## Пилот Mermaid: запрос к runtime
+
+```mermaid
+flowchart LR
+  Desktop["Desktop или CLI"] --> Runtime["osnova-runtime"]
+  Runtime --> Policy["Policy и Job Manager"]
+  Policy --> Tool["Builtin, process, OCI или remote tool"]
+  Tool --> Outbox["Изолированный outbox"]
+  Outbox --> Publish["Проверка и атомарная публикация"]
+  Publish --> Project["Папка проекта"]
+  Publish --> Session["Событие сессии и provenance"]
+```

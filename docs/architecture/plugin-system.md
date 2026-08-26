@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Система расширений
 
 Расширения добавляют themes, tools, operations, artifact types, context

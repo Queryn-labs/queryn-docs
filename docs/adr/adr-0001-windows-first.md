@@ -1,11 +1,15 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: superseded
+supersededBy: 14
+---
+
 # ADR 0001: Windows-first desktop
 
 ## Статус
 
-Принято. Изменение: впоследствии целевая модель расширена - Windows и macOS
-являются равноправными desktop-целями (см. `docs/index.md` и продуктовые
-документы). Решение «Windows-first» фиксирует первоначальный запуск, а не
-отказ от macOS.
+Решение заменено ADR 0014.
 
 ## Контекст
 

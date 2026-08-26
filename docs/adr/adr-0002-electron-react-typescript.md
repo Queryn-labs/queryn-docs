@@ -1,3 +1,9 @@
+---
+authority: normative
+lifecycle: active
+adrStatus: accepted
+---
+
 # ADR 0002: Electron, React и TypeScript
 
 ## Статус

@@ -1,0 +1,4 @@
+[    1647ms] The requested module '/@fs/Users/nksv_ilya/Documents/GitHub/osnova-foundation/osnova-docs/node_modules/.pnpm/@braintree+sanitize-url@7.1.2/node_modules/@braintree/sanitize-url/dist/index.js?v=60affe36' does not provide an export named 'sanitizeUrl'
+[    1649ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:5180/favicon.ico:0
+[   47576ms] [LOG] [vite] server connection lost. Polling for restart... @ http://127.0.0.1:5180/@vite/client:559
+[   47578ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:5180/:0

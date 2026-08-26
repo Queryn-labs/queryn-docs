@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Версионирование и миграции
 
 ## Долгоживущие версии

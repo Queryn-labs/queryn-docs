@@ -1,3 +1,8 @@
+---
+authority: normative
+lifecycle: active
+---
+
 # Runtime, permissions и безопасность
 
 ## Драйверы
@@ -29,6 +34,12 @@ driver нельзя выдавать за sandbox.
 Risk levels: `safe-read`, `project-write`, `network-egress`,
 `external-side-effect`, `privileged`. Последние три требуют approval или
 заранее сохраненного scoped rule.
+
+Текущий desktop-путь Tool Manager устанавливает локальный пакет с
+`allowUnsigned: true` и при подключении передаёт весь объявленный набор
+permissions. Это фактически путь только для разработки без гранулярного выбора.
+Подписанный каталог с отдельным согласованием каждого permission остаётся
+целевым усилением.
 
 ## OCI filesystem
 
