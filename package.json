@@ -1,22 +1,22 @@
 {
-  "name": "osnova-docs",
+  "name": "queryn-docs",
   "version": "0.1.0",
-  "description": "Product and architecture documentation for Osnova.",
+  "description": "Product and architecture documentation for Queryn.",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "vitepress dev docs",
-    "verify": "node ../osnova-spec/scripts/check-documentation.mjs --only D1,D2,D3,D4,D5,D7",
-    "diagram:check": "node ../osnova-spec/scripts/check-documentation.mjs --only D4",
+    "verify": "node ../queryn-spec/scripts/check-documentation.mjs --only D1,D2,D3,D4,D5,D7",
+    "diagram:check": "node ../queryn-spec/scripts/check-documentation.mjs --only D4",
     "build": "pnpm verify && vitepress build docs",
     "preview": "vitepress preview docs"
   },
   "keywords": [
-    "osnova",
+    "queryn",
     "documentation",
     "vitepress"
   ],
-  "author": "Osnova Labs",
+  "author": "Queryn Labs",
   "license": "CC-BY-4.0",
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {

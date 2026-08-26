@@ -20,7 +20,7 @@ flowchart TD
   Appearance --> Theme["Тема: system / light / dark"]
   Appearance --> Palette["Одна из встроенных палитр"]
   Appearance --> CSS["Пользовательские стили"]
-  Theme --> LocalTheme["localStorage: osnova-theme"]
+  Theme --> LocalTheme["localStorage: queryn-theme"]
   Palette --> SavePalette["settings.appearance.palette + local cache"]
   CSS --> Normalize{"Поле пустое?"}
   Normalize -->|нет| StoreCSS["settings.appearance.customCss"]

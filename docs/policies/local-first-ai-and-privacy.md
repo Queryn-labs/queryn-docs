@@ -7,12 +7,12 @@ lifecycle: active
 
 ## Source of truth
 
-Папка проекта владеет заметками, медиа, descriptors, relations и session history. `.osnova/` содержит удаляемые индексы, checkpoints, runtime state и подробные логи. Удаление `.osnova/` не должно уничтожать пользовательский результат.
+Папка проекта владеет заметками, медиа, descriptors, relations и session history. `.queryn/` содержит удаляемые индексы, checkpoints, runtime state и подробные логи. Удаление `.queryn/` не должно уничтожать пользовательский результат.
 
 ## AI опционален
 
 Без model provider в desktop работают обычные Files и Notes. Operations и
-`osnova.graph.link` доступны через runtime API и CLI, причём `graph.link` является
+`queryn.graph.link` доступны через runtime API и CLI, причём `graph.link` является
 relation API, а не графовой поверхностью. `ToolWorkspace` и полноценные графовые и
 карточные поверхности не входят в текущую поставку.
 Local и cloud providers реализуют один контракт. Встроенная конфигурация сейчас
@@ -46,7 +46,7 @@ Local и cloud providers реализуют один контракт. Встр�
 
 ## Секреты
 
-API keys хранятся в macOS Keychain или Windows DPAPI/Credential boundary. Они не записываются в `osnova.json`, sessions или extension package.
+API keys хранятся в macOS Keychain или Windows DPAPI/Credential boundary. Они не записываются в `queryn.json`, sessions или extension package.
 
 ## Индексация
 

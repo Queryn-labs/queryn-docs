@@ -3,7 +3,7 @@ authority: normative
 lifecycle: active
 ---
 
-# Threat model Osnova Reborn
+# Threat model Queryn
 
 ## Активы
 
@@ -16,7 +16,7 @@ Renderer (untrusted web boundary)
   -> typed preload
 Desktop main
   -> authenticated local RPC
-osnova-runtime
+queryn-runtime
   -> process / OCI / remote tool
 Artifact Ingestor
   -> project folder

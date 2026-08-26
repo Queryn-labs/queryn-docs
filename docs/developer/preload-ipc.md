@@ -6,9 +6,9 @@ lifecycle: active
 # Preload и IPC API
 
 Канон этой страницы — JSDoc и типы в
-<code>osnova-desktop/src/preload/index.ts</code>. Preload создаёт объект
-<code>window.osnova</code> через <code>contextBridge.exposeInMainWorld</code> и
-экспортирует его тип как <code>OsnovaApi</code>. Вызовы, отмеченные как
+<code>queryn-desktop/src/preload/index.ts</code>. Preload создаёт объект
+<code>window.queryn</code> через <code>contextBridge.exposeInMainWorld</code> и
+экспортирует его тип как <code>QuerynApi</code>. Вызовы, отмеченные как
 отклоняющие промис, должны обрабатываться renderer через
 <code>try/catch</code>. Имена каналов ниже — фактические аргументы
 <code>ipcRenderer.invoke</code>, а не самостоятельный публичный RPC-контракт.
@@ -139,8 +139,8 @@ composer выбор произвольных вложений.
 | <code>approveAgentChatRun(input)</code> | <code>{ projectId: string; runId: string; decision: Record&lt;string, unknown&gt; }</code> | <code>agent:chat-approve</code> | Результат chat run; отклоняет при политике или ошибке IPC |
 
 MCP-функции выше нельзя описывать как рабочую desktop-интеграцию до
-добавления методов в <code>osnova-runtime/src/rpc-server.ts</code>. Прямой
-программный метод <code>OsnovaRuntime.registerMcpServer</code> существует в
+добавления методов в <code>queryn-runtime/src/rpc-server.ts</code>. Прямой
+программный метод <code>QuerynRuntime.registerMcpServer</code> существует в
 runtime и не является этим bridge-маршрутом.
 
 Тип входа <code>chatAgent</code> не содержит отдельного поля плана или списка

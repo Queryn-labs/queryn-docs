@@ -3,9 +3,9 @@ authority: normative
 lifecycle: active
 ---
 
-# Osnova Runtime
+# Queryn Runtime
 
-`osnova-runtime` является локальным control plane для project services,
+`queryn-runtime` является локальным control plane для project services,
 расширений, jobs, контекста и моделей. Сам процесс runtime является частью
 backend, а AI-поддержка внутри него остается опциональной.
 

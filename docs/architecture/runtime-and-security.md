@@ -7,9 +7,9 @@ lifecycle: active
 
 ## Драйверы
 
-- `builtin`: подписанный код Osnova.
+- `builtin`: подписанный код Queryn.
 - `node-process`: отдельный JS/TS extension host.
-- `native-process`: внешний executable с Osnova Tool Protocol.
+- `native-process`: внешний executable с Queryn Tool Protocol.
 - `oci`: OCI image, закрепленный digest.
 - `remote`: явно подключенный HTTP или MCP server.
 
@@ -44,10 +44,10 @@ permissions. Это фактически путь только для разра
 ## OCI filesystem
 
 ```text
-/osnova/input    read-only materialized inputs
-/osnova/work     ephemeral work directory
-/osnova/outbox   candidate outputs
-/osnova/models   read-only model cache
+/queryn/input    read-only materialized inputs
+/queryn/work     ephemeral work directory
+/queryn/outbox   candidate outputs
+/queryn/models   read-only model cache
 ```
 
 Папка проекта и container engine socket не монтируются. Host проверяет paths,

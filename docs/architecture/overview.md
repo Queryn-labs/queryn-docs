@@ -5,7 +5,7 @@ lifecycle: active
 
 # Обзор архитектуры
 
-Osnova разделена на небольшие репозитории со стабильными зонами ответственности.
+Queryn разделена на небольшие репозитории со стабильными зонами ответственности.
 
 Основная модель данных - folder-based проект. Desktop-клиент использует общий
 runtime control plane, а runtime использует core для project IO и стабильных
@@ -24,7 +24,7 @@ SDK. AI является опциональным модулем общего ru
 
 ```text
 Desktop / CLI
-  -> osnova-runtime
+  -> queryn-runtime
     -> policy + job manager
       -> builtin / process / OCI / remote tool
         -> outbox
@@ -39,7 +39,7 @@ Desktop / CLI
 
 ```mermaid
 flowchart LR
-  Desktop["Desktop или CLI"] --> Runtime["osnova-runtime"]
+  Desktop["Desktop или CLI"] --> Runtime["queryn-runtime"]
   Runtime --> Policy["Policy и Job Manager"]
   Policy --> Tool["Builtin, process, OCI или remote tool"]
   Tool --> Outbox["Изолированный outbox"]

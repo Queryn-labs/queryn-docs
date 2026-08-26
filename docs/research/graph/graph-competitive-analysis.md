@@ -175,7 +175,7 @@ boundaries. Это именно то, что должно быть visible.
 - **Absent** (no graph: нет позиции вообще)
 
 Никто не делает позицию **функцией двух сил**: folder membership (где заметка
-"живёт") и link topology (что к ней тянет). Это именно то, что Osnova может
+"живёт") и link topology (что к ней тянет). Это именно то, что Queryn может
 эксплуатировать: folder hierarchy даёт **позиционный якорь**, wiki-links даёт
 **pull force**, и напряжение между ними **ЕСТЬ визуализация**.
 
@@ -834,7 +834,7 @@ graph topology БЕЗ folder hierarchy, или folder hierarchy БЕЗ graph top
 Никто не показывает **ОДНОВРЕМЕННО** как folders организуют знания и как links
 пересекают эти границы.
 
-White space Osnova: **визуализация, где folder hierarchy и link topology
+White space Queryn: **визуализация, где folder hierarchy и link topology
 сосуществуют, и их НАПРЯЖЕНИЕ есть информация.**
 
 - Tectonic Borders: напряжение = border migration (где bridge concepts)

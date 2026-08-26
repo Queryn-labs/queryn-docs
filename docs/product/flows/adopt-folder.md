@@ -5,14 +5,14 @@ lifecycle: active
 
 # Усыновление существующей папки
 
-Усыновление превращает выбранный каталог без читаемого <code>osnova.json</code> в проект
-Osnova. Поток не переносит существующие файлы и не импортирует их в отдельное
+Усыновление превращает выбранный каталог без читаемого <code>queryn.json</code> в проект
+Queryn. Поток не переносит существующие файлы и не импортирует их в отдельное
 хранилище. Он создаёт только отсутствующие служебные каталоги и манифест после
 явного подтверждения.
 
 Поток реализован в <code>ProjectsWidget</code>, <code>ProjectAdoptionPanel</code>,
-<code>osnova-desktop/src/main/services/project-service.ts</code> и
-<code>osnova-core/packages/project/src/adoption.ts</code>.
+<code>queryn-desktop/src/main/services/project-service.ts</code> и
+<code>queryn-core/packages/project/src/adoption.ts</code>.
 
 ## Поток
 
@@ -24,7 +24,7 @@ flowchart TD
   Select --> Open["openProject: выбранный путь"]
   Open -->|успех| Project["ProjectWorkspace"]
   Open -->|ошибка| Inspect["inspectProjectAdoption"]
-  Inspect --> Manifest{"Читаемый osnova.json найден?"}
+  Inspect --> Manifest{"Читаемый queryn.json найден?"}
   Manifest -->|да| OpenError["Показать исходную ошибку открытия"]
   Manifest -->|нет| Plan["Показать план усыновления"]
   Plan --> Confirm{"Подтвердить изменение папки?"}
@@ -38,7 +38,7 @@ flowchart TD
 
 План содержит путь, предлагаемое имя и идентификатор, отсутствующие каталоги
 <code>notes/</code>, <code>assets/</code>, <code>artifacts/</code>, <code>sessions/</code>,
-<code>relations/</code>, <code>.osnova</code>, а также коллизии для уже непустых
+<code>relations/</code>, <code>.queryn</code>, а также коллизии для уже непустых
 служебных каталогов. После подтверждения создаются только отсутствующие каталоги
 и записывается манифест формата <code>0.2</code>.
 
@@ -54,7 +54,7 @@ flowchart TD
 | Первое открытие | <code>openProject</code> читает и проверяет манифест | Ошибка открытия запускает проверку плана, но не скрывает исходную ошибку |
 | Проверка | <code>inspectProjectAdoption</code> показывает отсутствующие каталоги и коллизии | Если проверка сама не читается, показывается исходная ошибка открытия |
 | План | <code>ProjectAdoptionPanel</code> показывает путь, имя и список будущих каталогов | Уже существующие файлы остаются на месте. Для непустых каталогов показывается предупреждение |
-| Подтверждение | <code>adoptProject</code> создаёт недостающие каталоги и <code>osnova.json</code> | Отказ не меняет папку. Ошибка записи остаётся в модальном потоке |
+| Подтверждение | <code>adoptProject</code> создаёт недостающие каталоги и <code>queryn.json</code> | Отказ не меняет папку. Ошибка записи остаётся в модальном потоке |
 | Повторное открытие | Desktop открывает созданный проект и запоминает его среди последних | Ошибка повторного открытия показывается как ошибка desktop |
 
 ## Граница реализации
