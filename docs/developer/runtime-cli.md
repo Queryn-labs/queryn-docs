@@ -147,15 +147,19 @@ RPC в текущей версии не содержит методов <code>mc
 | Команда | Аргументы |
 | --- | --- |
 | <code>model:list</code> | Нет обязательных аргументов |
+| <code>model:provider-template-list</code> | Нет обязательных аргументов |
 | <code>model:provider-list</code> | Нет обязательных аргументов |
+| <code>model:provider-config-list</code> | Нет обязательных аргументов |
 | <code>model:install</code> | <code>--dependency JSON</code>, необязательно <code>--allow-network</code> |
 | <code>model:remove</code> | <code>--sha256 DIGEST</code> |
 | <code>model:provider-configure</code> | <code>--config JSON</code>, необязательно <code>--secret-stdin</code> |
+| <code>model:provider-remove</code> | <code>--provider ID</code> |
 
 <code>--dependency</code> и <code>--config</code> должны быть JSON-объектами.
 Секрет поставщика читается только из стандартного ввода при наличии
-<code>--secret-stdin</code>. После удаления модели CLI печатает
-<code>{ "removed": true }</code>.
+<code>--secret-stdin</code>. Новая конфигурация поставщика содержит
+<code>templateId</code> и явный <code>recipient</code>. После удаления модели или
+поставщика CLI печатает <code>{ "removed": true }</code>.
 
 ## Примеры
 
@@ -179,8 +183,10 @@ node dist/cli.js operation:invoke \
   --publish
 
 node dist/cli.js model:provider-configure \
-  --config '{"id":"local.ollama","type":"openai-compatible","endpoint":"http://127.0.0.1:11434/v1"}' \
+  --config '{"id":"cloud.openai","templateId":"cloud.openai","type":"openai-compatible","endpoint":"https://api.openai.com/v1","credentialAccount":"cloud.openai","recipient":"cloud"}' \
   --secret-stdin < provider-secret.txt
+
+node dist/cli.js model:provider-remove --provider cloud.openai
 ~~~
 
 ## RPC-сервер

@@ -110,7 +110,8 @@ const adrSidebar = [
       { text: "0011 Cross Session Memory", link: "/adr/adr-0011-cross-session-memory" },
       { text: "0012 Unified Agent Loop", link: "/adr/adr-0012-unified-agent-loop" },
       { text: "0013 Agent Network Tools", link: "/adr/adr-0013-agent-network-tools" },
-      { text: "0014 Равноправные desktop-цели", link: "/adr/adr-0014-equal-desktop-targets" }
+      { text: "0014 Равноправные desktop-цели", link: "/adr/adr-0014-equal-desktop-targets" },
+      { text: "0015 Каталог поставщиков моделей", link: "/adr/adr-0015-model-provider-catalog" }
     ]
   }
 ];

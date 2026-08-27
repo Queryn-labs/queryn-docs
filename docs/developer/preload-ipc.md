@@ -163,9 +163,11 @@ runtime и не является этим bridge-маршрутом.
 | <code>installModel(input)</code> | <code>{ dependency: RuntimeModelDependency; allowNetwork?: boolean }</code> | <code>model:install</code> | Результат установки; отклоняет при политике или ошибке файловой системы |
 | <code>removeModel(sha256)</code> | <code>string</code> | <code>model:remove</code> | Результат удаления; отклоняет при ошибке файловой системы или IPC |
 | <code>listModelProviders()</code> | — | <code>model:provider-list</code> | Дескрипторы поставщиков; отклоняет при ошибке IPC |
+| <code>listModelProviderTemplates()</code> | — | <code>model:provider-template-list</code> | Встроенные шаблоны без секретов; отклоняет при ошибке IPC |
 | <code>listModelProviderModels()</code> | — | <code>model:provider-models</code> | Каталоги моделей; отклоняет при ошибке IPC |
 | <code>listModelProviderConfigs()</code> | — | <code>model:provider-config-list</code> | Конфигурации; отклоняет при ошибке IPC |
-| <code>configureModelProvider(input)</code> | <code>{ config: { id: string; type: "openai-compatible"; endpoint: string; credentialAccount?: string }; secret?: string }</code> | <code>model:provider-configure</code> | Конфигурация; отклоняет при проверке или ошибке credentials |
+| <code>configureModelProvider(input)</code> | <code>{ config: { id: string; templateId: string; type: "openai-compatible"; endpoint: string; credentialAccount?: string; recipient: "local" &#124; "cloud" }; secret?: string }</code> | <code>model:provider-configure</code> | Нормализованная конфигурация; отклоняет при проверке или ошибке хранилища ключей |
+| <code>removeModelProvider(providerId)</code> | <code>string</code> | <code>model:provider-remove</code> | Удаляет конфигурацию, живую регистрацию и неиспользуемый ключ |
 | <code>removeModelCredential(account)</code> | <code>string</code> | <code>model:credential-remove</code> | Результат удаления; отклоняет при ошибке хранилища credentials |
 | <code>runDiagnostics(projectId?)</code> | Необязательный <code>string</code> | <code>diagnostics:doctor</code> | Отчёт; отклоняет при ошибке IPC |
 

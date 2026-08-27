@@ -28,6 +28,7 @@ Osnova. Номер и путь ADR стабильны. Если решение �
 | [0012](./adr-0012-unified-agent-loop.md) | Единый диалоговый агентный движок | `accepted` | — |
 | [0013](./adr-0013-agent-network-tools.md) | Сетевые инструменты агента | `accepted` | — |
 | [0014](./adr-0014-equal-desktop-targets.md) | Windows и macOS как равноправные desktop-цели | `accepted` | — |
+| [0015](./adr-0015-model-provider-catalog.md) | Каталог и жизненный цикл поставщиков моделей | `accepted` | — |
 
 ## Правило замены
 
