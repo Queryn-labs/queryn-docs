@@ -5,30 +5,30 @@ lifecycle: active
 
 # Карта репозиториев
 
-## osnova-docs
+## queryn-docs
 
 Документация по продукту, архитектуре, ADR и участию.
 
-## osnova-spec
+## queryn-spec
 
 Открытая спецификация folder-based формата проекта, включая JSON Schema и примеры.
 
-## osnova-core
+## queryn-core
 
 Общие TypeScript-пакеты для доменных типов, операций с папкой проекта, manifest и validation.
 
-## osnova-desktop
+## queryn-desktop
 
 Windows/macOS Electron-приложение с React renderer и TypeScript-сервисами.
 
-## osnova-plugin-sdk
+## queryn-sdk
 
 Developer Kit для Extension Manifest v1, Operations, artifact/context contributions, упаковки и testkit.
 
-## osnova-runtime
+## queryn-runtime
 
 Обязательный локальный control plane. AI и OCI внутри него остаются опциональными возможностями.
 
-## osnova-plugins
+## queryn-extensions
 
 Каталог и примеры плагинов.

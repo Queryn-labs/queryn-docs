@@ -66,9 +66,9 @@ lifecycle: active
 
 ## Источник фактов
 
-R1 сверяется с компонентами desktop и runtime: <code>osnova-desktop/src/renderer</code>,
-<code>osnova-desktop/src/preload/index.ts</code>, <code>osnova-desktop/src/main/index.ts</code>,
-<code>osnova-runtime/src/cli.ts</code>, <code>osnova-runtime/src/runtime.ts</code> и
-<code>osnova-core/packages/project</code>. R2 и R3 являются продуктовой
+R1 сверяется с компонентами desktop и runtime: <code>queryn-desktop/src/renderer</code>,
+<code>queryn-desktop/src/preload/index.ts</code>, <code>queryn-desktop/src/main/index.ts</code>,
+<code>queryn-runtime/src/cli.ts</code>, <code>queryn-runtime/src/runtime.ts</code> и
+<code>queryn-core/packages/project</code>. R2 и R3 являются продуктовой
 границей для последующих milestone-изменений и должны быть переведены в R1
 только вместе с фактическим кодом и проверкой документации.

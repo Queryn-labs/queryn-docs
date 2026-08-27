@@ -7,24 +7,24 @@ lifecycle: active
 
 Расширение состоит из манифеста, вкладов в продукт и одного или нескольких
 runtime. Контракт манифеста и типы SDK генерируются из
-<code>osnova-spec</code>. Host проверяет пакет до активации, а runtime
+<code>queryn-spec</code>. Host проверяет пакет до активации, а runtime
 получает только временные входы и каталоги протокола.
 
 ## Фактический CLI SDK
 
-В SDK объявлен бинарь <code>osnova-extension</code>. Его исходник —
-<code>osnova-plugin-sdk/src/cli.ts</code>. После сборки SDK команды выглядят
+В SDK объявлен бинарь <code>queryn-extension</code>. Его исходник —
+<code>queryn-sdk/src/cli.ts</code>. После сборки SDK команды выглядят
 так:
 
 ~~~bash
-cd osnova-plugin-sdk
+cd queryn-sdk
 pnpm install
 pnpm build
 node dist/cli.js init ../my-tool --template tool
 node dist/cli.js lint ../my-tool/extension.json
 node dist/cli.js test ../my-tool/extension.json
 node dist/cli.js dev ../my-tool
-node dist/cli.js pack ../my-tool ../my-tool/extension.osnova-package.json
+node dist/cli.js pack ../my-tool ../my-tool/extension.queryn-package.json
 ~~~
 
 Доступны шаблоны <code>theme</code>, <code>note-linter</code>,
@@ -36,12 +36,12 @@ node dist/cli.js pack ../my-tool ../my-tool/extension.osnova-package.json
 | <code>init DIRECTORY --template TEMPLATE</code> | Создаёт <code>extension.json</code>, <code>package.json</code>, <code>tsconfig.json</code>, <code>src/index.ts</code>, <code>.gitignore</code> и README; отдельные шаблоны добавляют <code>server.mjs</code>, <code>tokens.json</code> или Dockerfile |
 | <code>lint FILE</code> | Читает JSON и запускает <code>validateExtensionManifest</code> |
 | <code>test FILE</code> | Делает ту же проверку манифеста; CLI не запускает runtime-процесс и не выполняет обработчик операции |
-| <code>pack DIRECTORY OUTPUT</code> | Валидирует манифест и создаёт пакет формата <code>osnova-extension-package/1</code> с файлами, SHA-256 каждого файла и общей целостностью |
+| <code>pack DIRECTORY OUTPUT</code> | Валидирует манифест и создаёт пакет формата <code>queryn-extension-package/1</code> с файлами, SHA-256 каждого файла и общей целостностью |
 | <code>dev DIRECTORY</code> | Проверяет <code>extension.json</code> и печатает путь; отдельный server не запускает |
 | <code>doctor</code> | Печатает версию Node, платформу, архитектуру и готовность SDK |
 
-Сокращённая команда <code>osnova extension ...</code> не является
-реализованным интерфейсом. В <code>osnova-runtime/src/cli.ts</code> также нет
+Сокращённая команда <code>queryn extension ...</code> не является
+реализованным интерфейсом. В <code>queryn-runtime/src/cli.ts</code> также нет
 команд <code>init</code>, <code>lint</code>, <code>test</code>, <code>pack</code>
 или <code>dev</code>. Если для них появится wrapper, его можно описать после
 появления фактического бинаря или package script.
@@ -60,7 +60,7 @@ my-tool/
 
 <code>pack</code> обходит каталог рекурсивно и исключает только
 <code>node_modules</code>, <code>.git</code> и файлы, чьё имя начинается с
-<code>.osnova-package</code>. Перед упаковкой проверьте, что в результат не
+<code>.queryn-package</code>. Перед упаковкой проверьте, что в результат не
 попадают секреты и лишние сборочные файлы.
 
 ## Манифест
@@ -70,17 +70,17 @@ my-tool/
 ~~~json
 {
   "manifestVersion": "1",
-  "id": "osnova.example.tool",
+  "id": "queryn.example.tool",
   "name": "Example tool",
   "version": "1.0.0",
-  "osnova": { "minVersion": "0.2.0" },
+  "queryn": { "minVersion": "0.2.0" },
   "permissions": [],
   "contributes": {}
 }
 ~~~
 
 Идентификатор должен быть namespaced, версия — SemVer, а
-<code>osnova.minVersion</code> — совместимой версией host. Вклады,
+<code>queryn.minVersion</code> — совместимой версией host. Вклады,
 runtime и операции также используют идентификаторы с префиксом расширения.
 
 ## Вклады
@@ -108,8 +108,8 @@ host-приложения относятся к целевому слою.
 
 ~~~json
 {
-  "id": "osnova.example.tool.run",
-  "toolId": "osnova.example.tool.tool",
+  "id": "queryn.example.tool.run",
+  "toolId": "queryn.example.tool.tool",
   "version": "1.0.0",
   "title": "Run example",
   "inputSchema": {
@@ -118,7 +118,7 @@ host-приложения относятся к целевому слою.
     "properties": { "text": { "type": "string", "minLength": 1 } }
   },
   "outputSchema": { "type": "object" },
-  "produces": ["osnova.example.tool.output"],
+  "produces": ["queryn.example.tool.output"],
   "risk": "project-write",
   "agentVisibility": "explicit",
   "execution": "job",
@@ -146,7 +146,7 @@ host-приложения относятся к целевому слою.
 | <code>node-process</code> | Нужен безопасный относительный <code>entry</code> |
 | <code>native-process</code> | Нужны <code>native:execute</code> и безопасный <code>entry</code> |
 | <code>oci</code> | Нужен образ с полным SHA-256 digest и <code>lifecycle: "job"</code> |
-| <code>remote</code> | Нужен endpoint HTTPS, кроме loopback, и протокол <code>mcp</code> или <code>osnova-tool-v1</code> |
+| <code>remote</code> | Нужен endpoint HTTPS, кроме loopback, и протокол <code>mcp</code> или <code>queryn-tool-v1</code> |
 | <code>builtin</code> | Используется host для встроенных возможностей |
 
 <code>lifecycle: "project"</code> или <code>shared</code> требует
@@ -181,7 +181,7 @@ connector или runtime там, где этого требует контрак
 
 Для <code>node-process</code> host запускает entry как отдельный
 процесс и общается с ним JSON-RPC 2.0 по stdio. Контракт
-<code>osnova-spec/protocol/osnova-tool-protocol.md</code> включает:
+<code>queryn-spec/protocol/queryn-tool-protocol.md</code> включает:
 
 - <code>initialize</code> и <code>health</code> для handshake и состояния
 - <code>jobs/start</code>, <code>jobs/get</code> и <code>jobs/cancel</code>
@@ -203,7 +203,7 @@ Host передаёт временные каталоги входа, работ
   "structured": { "ok": true },
   "artifacts": [
     {
-      "type": "osnova.example.tool.output",
+      "type": "queryn.example.tool.output",
       "payloads": [{ "path": "output.md", "mediaType": "text/markdown" }]
     }
   ]
@@ -224,21 +224,21 @@ Host заново вычисляет checksum, размер и допустим�
 входом, read-only artifact inputs, <code>outboxPath</code>, AbortSignal и
 <code>reportProgress</code>.
 
-<code>invokeTestOperation</code> из <code>@osnova/plugin-sdk/testkit</code>
+<code>invokeTestOperation</code> из <code>@queryn/plugin-sdk/testkit</code>
 проверяет наличие операции и handler, разрешения и обязательные поля
 JSON Schema, затем вызывает handler с тестовым контекстом. Он не запускает
 host, не создаёт реальный проект, не проверяет полный runtime protocol и не
 заменяет runtime E2E.
 
 ~~~ts
-import { defineExtension, type ExtensionManifest } from "@osnova/plugin-sdk";
+import { defineExtension, type ExtensionManifest } from "@queryn/plugin-sdk";
 
 const manifest = /* загрузка extension.json */ {} as ExtensionManifest;
 
 export default defineExtension({
   manifest,
   operations: {
-    "osnova.example.tool.run": async ({ input, reportProgress }) => {
+    "queryn.example.tool.run": async ({ input, reportProgress }) => {
       reportProgress(0.5, "Обработка");
       return { structured: { ok: true, text: String(input.text ?? "") } };
     }
@@ -261,19 +261,19 @@ pnpm pack
 ~~~
 
 Скрипты, созданные <code>init</code>, вызывают
-<code>osnova-extension</code> для lint, test, pack и dev. Команда
+<code>queryn-extension</code> для lint, test, pack и dev. Команда
 <code>pnpm test</code> расширения проверяет manifest через SDK CLI, а не
 проводит полный host E2E. Для примеров репозитория используйте:
 
 ~~~bash
-cd osnova-plugins
+cd queryn-extensions
 pnpm test
 pnpm test:runtime
 ~~~
 
 <code>test:runtime</code> требует предварительно собранные dist
-<code>osnova-core</code>, <code>osnova-plugin-sdk</code> и
-<code>osnova-runtime</code>. Он упаковывает advanced media tool, устанавливает
+<code>queryn-core</code>, <code>queryn-sdk</code> и
+<code>queryn-runtime</code>. Он упаковывает advanced media tool, устанавливает
 его в временный runtime, подключает к временному проекту, запускает операцию
 и проверяет артефакты.
 
@@ -282,14 +282,14 @@ pnpm test:runtime
 После сборки пакета runtime CLI устанавливает его так:
 
 ~~~bash
-cd osnova-runtime
+cd queryn-runtime
 node dist/cli.js extension:install \
-  --package ../my-tool/extension.osnova-package.json \
+  --package ../my-tool/extension.queryn-package.json \
   --developer-mode
 node dist/cli.js extension:list
 node dist/cli.js extension:connect \
   --project /path/to/project \
-  --extension osnova.example.tool \
+  --extension queryn.example.tool \
   --version 1.0.0 \
   --permissions artifact:create
 ~~~
@@ -309,7 +309,7 @@ RPC-метод установки с signature и publicKey, но отдельн
 ## Чек-лист автора
 
 - [ ] ID расширения, вкладов и runtime используют namespace
-- [ ] Версии и <code>osnova.minVersion</code> — SemVer
+- [ ] Версии и <code>queryn.minVersion</code> — SemVer
 - [ ] Указаны только необходимые permissions
 - [ ] Для каждой operation есть точные JSON Schema, risk, execution, timeout и idempotency
 - [ ] <code>accepts</code> и <code>produces</code> согласованы с artifact types

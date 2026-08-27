@@ -10,7 +10,7 @@ const productSidebar = [
     text: "Продукт",
     items: [
       { text: "Видение", link: "/product/vision" },
-      { text: "Osnova Reborn", link: "/product/osnova-reborn" },
+      { text: "Queryn", link: "/product/queryn" },
       { text: "Принципы", link: "/product/principles" },
       { text: "Аудитория и JTBD", link: "/product/jobs-and-non-goals" },
       { text: "UX-доктрина", link: "/product/ux-doctrine" },
@@ -53,7 +53,7 @@ const architectureSidebar = [
       { text: "Desktop", link: "/architecture/desktop" },
       { text: "Local First", link: "/architecture/local-first" },
       { text: "Система расширений", link: "/architecture/plugin-system" },
-      { text: "Osnova Runtime", link: "/architecture/ai-runtime" },
+      { text: "Queryn Runtime", link: "/architecture/ai-runtime" },
       { text: "Runtime и безопасность", link: "/architecture/runtime-and-security" },
       { text: "Артефакты, контекст и агент", link: "/architecture/artifacts-context-and-agent" },
       { text: "Версии и миграции", link: "/architecture/versioning-and-migrations" }
@@ -116,8 +116,8 @@ const adrSidebar = [
 ];
 
 export default withMermaid(defineConfig({
-  title: "Osnova",
-  description: "Local-first учебные проекты как обычные папки.",
+  title: "Queryn",
+  description: "Local-first учебные и исследовательские проекты как обычные папки.",
   cleanUrls: true,
   ignoreDeadLinks: false,
   head: [["link", { rel: "icon", href: "/favicon.svg" }]],
@@ -127,6 +127,8 @@ export default withMermaid(defineConfig({
     }
   },
   themeConfig: {
+    logo: { light: "/logo-light.svg", dark: "/logo.svg", alt: "Queryn" },
+    siteTitle: false,
     nav: [
       { text: "Главная", link: "/" },
       { text: "Продукт", link: "/product/vision" },

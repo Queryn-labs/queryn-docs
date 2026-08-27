@@ -5,11 +5,11 @@ lifecycle: active
 
 # CLI runtime
 
-CLI runtime собирается из <code>osnova-runtime/src/cli.ts</code>. После сборки
+CLI runtime собирается из <code>queryn-runtime/src/cli.ts</code>. После сборки
 его можно запускать напрямую:
 
 ~~~bash
-cd osnova-runtime
+cd queryn-runtime
 pnpm build
 node dist/cli.js help
 ~~~
@@ -138,7 +138,7 @@ CLI ждёт терминальный статус задания. Если оп
 
 <code>connector:sync</code> возвращает задание после ожидания терминального
 статуса. Встроенной команды регистрации MCP в <code>cli.ts</code> нет.
-Прямой метод <code>OsnovaRuntime.registerMcpServer</code> относится к
+Прямой метод <code>QuerynRuntime.registerMcpServer</code> относится к
 программному API runtime. Desktop bridge публикует MCP-вызовы, но dispatch
 RPC в текущей версии не содержит методов <code>mcp.server.*</code>.
 
@@ -161,20 +161,20 @@ RPC в текущей версии не содержит методов <code>mc
 
 ~~~bash
 node dist/cli.js project:create \
-  --path /tmp/osnova-demo \
+  --path /tmp/queryn-demo \
   --id demo \
   --name "Demo project"
 
 node dist/cli.js session:create \
-  --project /tmp/osnova-demo \
+  --project /tmp/queryn-demo \
   --title "Проверить материалы" \
   --goal "Собрать список тем"
 
-node dist/cli.js operation:list --project /tmp/osnova-demo --all
+node dist/cli.js operation:list --project /tmp/queryn-demo --all
 
 node dist/cli.js operation:invoke \
-  --project /tmp/osnova-demo \
-  --operation osnova.notes.create \
+  --project /tmp/queryn-demo \
+  --operation queryn.notes.create \
   --input '{"title":"Первая заметка","body":"Текст"}' \
   --publish
 
@@ -186,9 +186,9 @@ node dist/cli.js model:provider-configure \
 ## RPC-сервер
 
 <code>node dist/cli.js serve</code> печатает одной строкой JSON с
-<code>address</code>, <code>token</code>, <code>protocol: "osnova-rpc/1"</code>
+<code>address</code>, <code>token</code>, <code>protocol: "queryn-rpc/1"</code>
 и <code>pid</code>, после чего остаётся запущенным до SIGINT или SIGTERM.
 Файл <code>rpc.json</code> записывается в data root runtime и удаляется при
 закрытии. RPC-клиент должен передавать токен в поле <code>_auth</code>. Список
 доступных RPC-методов шире CLI и является отдельным контрактом
-<code>osnova-runtime/src/rpc-server.ts</code>.
+<code>queryn-runtime/src/rpc-server.ts</code>.

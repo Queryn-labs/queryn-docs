@@ -1,3 +1,41 @@
+:root {
+  --vp-c-bg: #f1ece2;
+  --vp-c-bg-soft: #d8d1c5;
+  --vp-c-bg-alt: #fffaf2;
+  --vp-c-text-1: #211f1c;
+  --vp-c-text-2: #554e44;
+  --vp-c-text-3: #6d6458;
+  --vp-c-divider: #c8beb0;
+  --vp-c-border: #c8beb0;
+  --vp-c-brand-1: #ac2954;
+  --vp-c-brand-2: #932046;
+  --vp-c-brand-3: #932046;
+  --vp-c-brand-soft: rgba(172, 41, 84, 0.12);
+  --vp-c-success-1: #3f8059;
+  --vp-c-warning-1: #96712a;
+  --vp-c-danger-1: #b34a53;
+  --vp-c-info-1: #40719f;
+}
+
+.dark {
+  --vp-c-bg: #0d1012;
+  --vp-c-bg-soft: #101418;
+  --vp-c-bg-alt: #15191d;
+  --vp-c-text-1: #f3f1f2;
+  --vp-c-text-2: #b5adb0;
+  --vp-c-text-3: #756d71;
+  --vp-c-divider: #2a3037;
+  --vp-c-border: rgba(243, 241, 242, 0.12);
+  --vp-c-brand-1: #ac2954;
+  --vp-c-brand-2: #c23563;
+  --vp-c-brand-3: #c23563;
+  --vp-c-brand-soft: #26151b;
+  --vp-c-success-1: #5aa77b;
+  --vp-c-warning-1: #c29445;
+  --vp-c-danger-1: #d66770;
+  --vp-c-info-1: #77a4d2;
+}
+
 .doc-metadata {
   display: grid;
   gap: 12px;

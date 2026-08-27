@@ -5,11 +5,11 @@ lifecycle: active
 
 # Системная архитектура
 
-Эта страница фиксирует архитектурные границы Osnova на уровне C4. Диаграммы
-сверены с исходниками `osnova-runtime` и `osnova-desktop` на текущем срезе
+Эта страница фиксирует архитектурные границы Queryn на уровне C4. Диаграммы
+сверены с исходниками `queryn-runtime` и `queryn-desktop` на текущем срезе
 репозиториев. Mermaid является каноническим форматом диаграмм.
 
-Проект остаётся обычной папкой на диске. `osnova.json`, пользовательские
+Проект остаётся обычной папкой на диске. `queryn.json`, пользовательские
 материалы и переносимые результаты живут в папке проекта. Локальный runtime
 хранит производное состояние отдельно и не становится источником истины.
 
@@ -25,17 +25,17 @@ flowchart LR
   StudentResearcher["Учащийся или исследователь"]
   ExtensionDeveloper["Разработчик расширения"]
   Operator["Оператор или техник"]
-  OsnovaDesktop["Osnova desktop<br/>Electron-клиент и локальный runtime"]
+  QuerynDesktop["Queryn desktop<br/>Electron-клиент и локальный runtime"]
   ProjectFolder["Папка проекта на диске<br/>источник истины"]
   LocalModelRuntime["Локальный процесс моделей<br/>или OCI runtime"]
   PublicCatalog["Будущий публичный каталог расширений"]
 
-  StudentResearcher -->|создаёт и изучает проекты| OsnovaDesktop
-  ExtensionDeveloper -->|разрабатывает и подключает расширения| OsnovaDesktop
-  Operator -->|проверяет состояние runtime и окружения| OsnovaDesktop
-  OsnovaDesktop -->|читает и записывает материалы| ProjectFolder
-  OsnovaDesktop -->|через локальный runtime запускает модели и инструменты| LocalModelRuntime
-  OsnovaDesktop -.->|будущая публикация и поиск расширений| PublicCatalog
+  StudentResearcher -->|создаёт и изучает проекты| QuerynDesktop
+  ExtensionDeveloper -->|разрабатывает и подключает расширения| QuerynDesktop
+  Operator -->|проверяет состояние runtime и окружения| QuerynDesktop
+  QuerynDesktop -->|читает и записывает материалы| ProjectFolder
+  QuerynDesktop -->|через локальный runtime запускает модели и инструменты| LocalModelRuntime
+  QuerynDesktop -.->|будущая публикация и поиск расширений| PublicCatalog
 ```
 
 `ExtensionDeveloper` публикует пакет расширения через локальный интерфейс
@@ -48,18 +48,18 @@ flowchart LR
 объявленный набор permissions. Гранулярный выбор разрешений и подписанный
 каталог остаются целевым усилением.
 
-## C2. Контейнеры Osnova {#c2-containers}
+## C2. Контейнеры Queryn {#c2-containers}
 
-Внутри системной границы находятся четыре контейнера. `osnova-spec`,
-`osnova-core` и `osnova-plugin-sdk` являются контрактами и библиотеками сборки,
-а не исполняемыми контейнерами Osnova, поэтому на этом уровне они не показаны.
+Внутри системной границы находятся четыре контейнера. `queryn-spec`,
+`queryn-core` и `queryn-sdk` являются контрактами и библиотеками сборки,
+а не исполняемыми контейнерами Queryn, поэтому на этом уровне они не показаны.
 MCP-серверы и внешние провайдеры моделей находятся за границей системы.
 
 ```mermaid
 flowchart LR
-  subgraph OsnovaSystem["Система Osnova"]
+  subgraph QuerynSystem["Система Queryn"]
     Desktop["Desktop<br/>Electron main, preload и renderer"]
-    Runtime["Runtime<br/>osnova-runtime и локальный JSON-RPC"]
+    Runtime["Runtime<br/>queryn-runtime и локальный JSON-RPC"]
     ProjectStorage["Хранилище проекта<br/>обычная папка и источник истины"]
     LocalModelRuntime["Локальный runtime моделей<br/>процесс или OCI"]
   end
@@ -72,7 +72,7 @@ flowchart LR
   Desktop -->|IPC через безопасный preload bridge| Runtime
   Runtime -.->|уведомления jobs, runtime и agent| Desktop
   Desktop -->|операции с файлами через main process| ProjectStorage
-  Runtime -->|чтение и запись через @osnova/project| ProjectStorage
+  Runtime -->|чтение и запись через @queryn/project| ProjectStorage
   Runtime -->|RuntimeSupervisor управляет процессами| LocalModelRuntime
   LocalModelRuntime -->|структурированный результат и кандидаты артефактов| Runtime
   Runtime -->|McpBridge и tools/call| MCPServers
@@ -81,7 +81,7 @@ flowchart LR
   RemoteModelProviders -->|текст, вызовы инструментов и usage| Runtime
 ```
 
-`Desktop` создаёт процесс `osnova-runtime` при первом запросе к
+`Desktop` создаёт процесс `queryn-runtime` при первом запросе к
 `DesktopRuntimeService`. Связь использует случайный Unix socket на macOS или
 named pipe на Windows и bearer token из стартового дескриптора. `ProjectStorage`
 доступен desktop через main process, а runtime получает тот же folder API через
@@ -94,14 +94,14 @@ HTTP endpoint на loopback или внешним HTTPS endpoint. Внешний
 
 ## C3. Компоненты runtime {#c3-runtime-components}
 
-Компоненты ниже соответствуют классам и модулям `osnova-runtime/src`. Точкой
-входа служит `OsnovaRuntime` в `runtime.ts`. `rpc-server.ts` вызывает
+Компоненты ниже соответствуют классам и модулям `queryn-runtime/src`. Точкой
+входа служит `QuerynRuntime` в `runtime.ts`. `rpc-server.ts` вызывает
 публичные методы runtime, а остальные компоненты сохраняют правила и состояние
 в рамках локального процесса.
 
 ```mermaid
 flowchart LR
-  subgraph RuntimeComponents["osnova-runtime"]
+  subgraph RuntimeComponents["queryn-runtime"]
     RpcServer["rpc-server.ts<br/>аутентифицированный JSON-RPC"]
     ProjectService["ProjectService<br/>открытие, миграция и усыновление"]
     AgentOrchestrator["AgentOrchestrator<br/>chat, approve и resume"]
@@ -122,7 +122,7 @@ flowchart LR
     CredentialStore["CredentialStore<br/>системное хранилище секретов"]
   end
 
-  ProjectIO["@osnova/project<br/>API папки проекта"]
+  ProjectIO["@queryn/project<br/>API папки проекта"]
   ProjectStorage["Хранилище проекта<br/>файлы проекта"]
   SecureStore["macOS Keychain или Windows DPAPI"]
   MCPServers["MCP-серверы"]
@@ -201,7 +201,7 @@ session log, ждёт terminal job и при необходимости возв
 `ContextBroker` строит envelope из project materials, применяет режимы
 `none`, `automatic`, `declarative` и `custom`, ограничивает бюджет и пересекает
 допустимых получателей с чувствительностью материала. `ProjectIndexer` хранит
-производный SQLite FTS5 или portable index в `.osnova/index`.
+производный SQLite FTS5 или portable index в `.queryn/index`.
 
 `ExtensionManager` проверяет пакет, регистрирует его операции и runtime
 descriptors, а при подключении к проекту обновляет manifest requirement,
@@ -217,13 +217,13 @@ risk machinery для подключённых MCP tools.
 
 ```mermaid
 flowchart LR
-  subgraph DesktopComponents["osnova-desktop"]
+  subgraph DesktopComponents["queryn-desktop"]
     MainProcess["MainProcess<br/>src/main/index.ts"]
     RuntimeService["DesktopRuntimeService<br/>main/services/runtime-service.ts"]
-    ProjectService["project-service.ts<br/>адаптер @osnova/project"]
+    ProjectService["project-service.ts<br/>адаптер @queryn/project"]
     SettingsService["settings-service.ts<br/>локальный settings.json"]
     FileService["file-service.ts<br/>JSON и безопасное чтение файлов"]
-    PreloadBridge["PreloadBridge<br/>типизированный window.osnova"]
+    PreloadBridge["PreloadBridge<br/>типизированный window.queryn"]
 
     subgraph RendererLayer["Renderer"]
       AppShell["AppShell<br/>глобальная оболочка"]
@@ -240,7 +240,7 @@ flowchart LR
     end
   end
 
-  Runtime["osnova-runtime<br/>локальный JSON-RPC"]
+  Runtime["queryn-runtime<br/>локальный JSON-RPC"]
   ProjectStorage["Хранилище проекта<br/>папка проекта"]
   UserSettings["Данные desktop<br/>settings.json"]
 
@@ -267,7 +267,7 @@ flowchart LR
   MainProcess -->|операции проекта| ProjectService
   MainProcess -->|операции настроек| SettingsService
   MainProcess -->|операции с файлами| FileService
-  RuntimeService -->|RpcClient и osnova-rpc/1| Runtime
+  RuntimeService -->|RpcClient и queryn-rpc/1| Runtime
   ProjectService -->|создание, открытие, notes и assets| ProjectStorage
   FileService -->|проверка project-relative path| ProjectStorage
   SettingsService -->|чтение и запись| UserSettings
@@ -275,12 +275,12 @@ flowchart LR
   MainProcess -.->|runtime:event| PreloadBridge
 ```
 
-`preload/index.ts` публикует узкий API `window.osnova`. Renderer не получает
+`preload/index.ts` публикует узкий API `window.queryn`. Renderer не получает
 доступ к Node или Electron API. Обработчик `handle` в main сначала проверяет
 доверенный frame, затем переводит project id в канонический путь, выполняет
 операцию и рекурсивно заменяет `projectPath` в ответах на `projectId`.
 
-`DesktopRuntimeService` лениво запускает `osnova-runtime` с командой `serve`,
+`DesktopRuntimeService` лениво запускает `queryn-runtime` с командой `serve`,
 читает из stdout address и token, создаёт `RpcClient` и пересылает уведомления
 `job.changed`, `approval.required`, `runtime.changed`, `artifact.published`,
 `agent.activity` и `agent.output.delta` в renderer.
@@ -298,24 +298,24 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph SpecContracts["osnova-spec"]
+  subgraph SpecContracts["queryn-spec"]
     Schemas["schemas/*.schema.json<br/>публичные JSON Schema"]
     Protocols["protocol/*.md<br/>Tool Protocol v1 и RPC v1"]
     Generator["scripts/generate-contracts.mjs<br/>генератор типов"]
   end
 
-  subgraph CorePackages["osnova-core"]
-    CoreTypes["@osnova/types<br/>generated и domain types"]
-    ManifestPackage["@osnova/manifest<br/>create и read manifest"]
-    ValidationPackage["@osnova/validation<br/>manifest и structure validation"]
-    ProjectPackage["@osnova/project<br/>folder, artifact и session API"]
+  subgraph CorePackages["queryn-core"]
+    CoreTypes["@queryn/types<br/>generated и domain types"]
+    ManifestPackage["@queryn/manifest<br/>create и read manifest"]
+    ValidationPackage["@queryn/validation<br/>manifest и structure validation"]
+    ProjectPackage["@queryn/project<br/>folder, artifact и session API"]
   end
 
-  SdkTypes["@osnova/plugin-sdk generated<br/>ExtensionManifest v1"]
-  PluginSdk["@osnova/plugin-sdk<br/>SDK и validation"]
-  Runtime["osnova-runtime<br/>runtime services"]
-  RuntimeClient["osnova-runtime/client<br/>RpcClient и notifications"]
-  Desktop["osnova-desktop<br/>main и renderer"]
+  SdkTypes["@queryn/plugin-sdk generated<br/>ExtensionManifest v1"]
+  PluginSdk["@queryn/plugin-sdk<br/>SDK и validation"]
+  Runtime["queryn-runtime<br/>runtime services"]
+  RuntimeClient["queryn-runtime/client<br/>RpcClient и notifications"]
+  Desktop["queryn-desktop<br/>main и renderer"]
 
   Schemas -->|компилирует core contracts| Generator
   Generator -->|записывает generated types| CoreTypes
@@ -332,14 +332,14 @@ flowchart LR
   Protocols -->|client protocol contract| RuntimeClient
 ```
 
-Карта генерации определена в `osnova-spec/scripts/generate-contracts.mjs`.
+Карта генерации определена в `queryn-spec/scripts/generate-contracts.mjs`.
 Контракты проекта, artifacts, relations, sessions, session events, context,
 совместимая схема agent plan и jobs становятся generated типами в
-`@osnova/types`. Схема agent plan является остатком контракта и не означает,
+`@queryn/types`. Схема agent plan является остатком контракта и не означает,
 что текущий runtime создаёт или исполняет отдельный `AgentPlan`. Контракт
-Extension Manifest v1 генерируется в `@osnova/plugin-sdk`.
+Extension Manifest v1 генерируется в `@queryn/plugin-sdk`.
 
-Runtime фактически зависит от `@osnova/manifest`, `@osnova/project`,
-`@osnova/types`, `@osnova/validation` и `@osnova/plugin-sdk`. Desktop фактически
-зависит от core-пакетов и `osnova-runtime`, а `RuntimeClient` скрывает socket
+Runtime фактически зависит от `@queryn/manifest`, `@queryn/project`,
+`@queryn/types`, `@queryn/validation` и `@queryn/plugin-sdk`. Desktop фактически
+зависит от core-пакетов и `queryn-runtime`, а `RuntimeClient` скрывает socket
 транспорт и bearer token за типизированным запросом.

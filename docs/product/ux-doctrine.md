@@ -3,7 +3,7 @@ authority: normative
 lifecycle: active
 ---
 
-# UX-доктрина Reborn
+# UX-доктрина Queryn
 
 ## Информационная архитектура
 

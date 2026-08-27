@@ -9,7 +9,7 @@ lifecycle: archived
 
 Текущий компонент `KnowledgeGraph.tsx` (409 строк) — монолит с SVG-рендерингом, кастомным орбитальным layout (`gravity-layout.ts`, 205 строк), и спринг-физикой через React `setState` на каждый кадр. Данные приходят из `useProjectTree` (`listProjectTree` + `listProjectLinks`). Отбрасываются: неразрешённые wiki-ссылки, asset-ссылки, теги. Ошибки из хука не читаются. Keyboard-навигации, `prefers-reduced-motion`, screen reader-поддержки нет. `loading` стартует `false`.
 
-Базовый каталог: `osnova-desktop/src/renderer/widgets/knowledge-graph/`
+Базовый каталог: `queryn-desktop/src/renderer/widgets/knowledge-graph/`
 
 ---
 
@@ -43,7 +43,7 @@ lifecycle: archived
 | `widgets/knowledge-graph/gravity-layout.ts` | **Удалить** — заменён на `graph-layout.ts` |
 | `entities/project/lib/useProjectTree.ts` | `loading` стартует `true` (строка 17: `useState(false)` → `useState(true)`) |
 | `shared/styles/knowledge-graph.css` | Полное обновление стилей (см. §4) |
-| `package.json` (osnova-desktop) | Добавить зависимости (см. §9) |
+| `package.json` (queryn-desktop) | Добавить зависимости (см. §9) |
 | `tsconfig.json` | Без изменений |
 
 ### Новые файлы тестов
@@ -630,7 +630,7 @@ function isVisible(pos: {x,y}, viewport, containerSize, padding = 50): boolean {
 - `fitViewport(bbox, containerSize)` → {scale, tx, ty} что bbox вписан
 
 **`useGraphData.test.ts`** (~70 строк)
-- Mock `window.osnova.listProjectTree` + `listProjectLinks`
+- Mock `window.queryn.listProjectTree` + `listProjectLinks`
 - 3 note nodes + 2 wiki links (1 resolved, 1 unresolved) → 3 GraphNode + 1 GraphEdge + 1 GhostNode
 - Asset links → не попадают в edges (только wiki)
 - Tags из NoteSummary → попадают в `GraphNode.tags`
@@ -670,7 +670,7 @@ function isVisible(pos: {x,y}, viewport, containerSize, padding = 50): boolean {
 ### Настройка vitest
 
 ```jsonc
-// package.json (osnova-desktop) — добавить
+// package.json (queryn-desktop) — добавить
 "devDependencies": {
   "vitest": "^3.0.0",
   "@testing-library/react": "^16.0.0",
@@ -684,7 +684,7 @@ function isVisible(pos: {x,y}, viewport, containerSize, padding = 50): boolean {
 ```
 
 ```typescript
-// vitest.config.ts (новый файл в osnova-desktop/)
+// vitest.config.ts (новый файл в queryn-desktop/)
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
@@ -702,12 +702,12 @@ export default defineConfig({
 // src/renderer/test-setup.ts (новый)
 import "@testing-library/jest-dom";
 
-// Mock window.osnova for tests
-globalThis.window.osnova = {
+// Mock window.queryn for tests
+globalThis.window.queryn = {
   listProjectTree: vi.fn(),
   listProjectLinks: vi.fn(),
   // ... остальные методы как vi.fn()
-} as unknown as typeof window.osnova;
+} as unknown as typeof window.queryn;
 ```
 
 ---
@@ -735,8 +735,8 @@ globalThis.window.osnova = {
 |---|---|
 | `react` (18.3) | hooks, components, refs |
 | `lucide-react` (1.20) | иконки (Plus, Minus, Maximize, MoreHorizontal, и др.) |
-| `@osnova/types` | ProjectLink, NoteSummary, ProjectTree, ProjectTreeNode |
-| `@osnova/project` | listProjectTree, listProjectLinks (через IPC) |
+| `@queryn/types` | ProjectLink, NoteSummary, ProjectTree, ProjectTreeNode |
+| `@queryn/project` | listProjectTree, listProjectLinks (через IPC) |
 
 ### Не добавляется
 
@@ -755,7 +755,7 @@ globalThis.window.osnova = {
 /* --- Рёбра: pencil-ink цвет, NOT accent --- */
 .kg-link {
   fill: none;
-  stroke: var(--osnova-color-border);        /* было: --osnova-color-accent */
+  stroke: var(--queryn-color-border);        /* было: --queryn-color-accent */
   stroke-width: 1.2;
   stroke-dasharray: none;                     /* было: 4 7 */
   /* БЕЗ animation по умолчанию */
@@ -763,7 +763,7 @@ globalThis.window.osnova = {
 
 /* Flow animation ТОЛЬКО на highlighted edges */
 .kg-link--active {
-  stroke: var(--osnova-color-accent);
+  stroke: var(--queryn-color-accent);
   stroke-width: 2.2;
   stroke-dasharray: 6 4;
   animation: kg-flow 1.2s linear infinite;
@@ -772,26 +772,26 @@ globalThis.window.osnova = {
 /* Ghost nodes */
 .kg-node--ghost .kg-node__pill {
   fill: transparent;
-  stroke: var(--osnova-color-border-soft);
+  stroke: var(--queryn-color-border-soft);
   stroke-dasharray: 4 3;
 }
 .kg-node--ghost .kg-node__pill-text {
-  fill: var(--osnova-color-text-muted);
+  fill: var(--queryn-color-text-muted);
   font-style: italic;
 }
 .kg-node--ghost-icon {
-  fill: var(--osnova-color-text-muted);
+  fill: var(--queryn-color-text-muted);
   font-size: 14px;
   font-weight: 600;
 }
 
 /* Hub badge */
 .kg-node__badge {
-  fill: var(--osnova-color-accent);
+  fill: var(--queryn-color-accent);
   rx: 7;
 }
 .kg-node__badge-text {
-  fill: var(--osnova-color-surface-elevated);
+  fill: var(--queryn-color-surface-elevated);
   font-size: 9px;
   font-weight: 700;
   text-anchor: middle;
@@ -817,13 +817,13 @@ globalThis.window.osnova = {
 
 /* Tier 3: cluster summary */
 .kg-cluster-summary {
-  fill: var(--osnova-color-surface-elevated);
+  fill: var(--queryn-color-surface-elevated);
   fill-opacity: 0.3;
-  stroke: var(--osnova-color-border-soft);
+  stroke: var(--queryn-color-border-soft);
   stroke-dasharray: 2 4;
 }
 .kg-cluster-summary__count {
-  fill: var(--osnova-color-text-muted);
+  fill: var(--queryn-color-text-muted);
   font-size: 14px;
   font-weight: 600;
   text-anchor: middle;
@@ -832,15 +832,15 @@ globalThis.window.osnova = {
 /* Banner */
 .kg-banner {
   position: absolute;
-  top: var(--osnova-space-3);
+  top: var(--queryn-space-3);
   left: 50%;
   transform: translateX(-50%);
-  padding: var(--osnova-space-1) var(--osnova-space-3);
-  background: var(--osnova-color-surface-elevated);
-  border: 1px solid var(--osnova-color-border-soft);
-  border-radius: var(--osnova-radius-md);
+  padding: var(--queryn-space-1) var(--queryn-space-3);
+  background: var(--queryn-color-surface-elevated);
+  border: 1px solid var(--queryn-color-border-soft);
+  border-radius: var(--queryn-radius-md);
   font-size: 12px;
-  color: var(--osnova-color-text-muted);
+  color: var(--queryn-color-text-muted);
   z-index: 40;
   pointer-events: none;
   user-select: none;
@@ -849,18 +849,18 @@ globalThis.window.osnova = {
 /* Search bar */
 .kg-search {
   position: absolute;
-  top: var(--osnova-space-3);
-  left: var(--osnova-space-4);
+  top: var(--queryn-space-3);
+  left: var(--queryn-space-4);
   z-index: 45;
 }
 .kg-search__input {
   width: 220px;
   padding: 6px 10px;
-  border: 1px solid var(--osnova-color-border-soft);
-  border-radius: var(--osnova-radius-md);
-  background: var(--osnova-color-surface-elevated);
+  border: 1px solid var(--queryn-color-border-soft);
+  border-radius: var(--queryn-radius-md);
+  background: var(--queryn-color-surface-elevated);
   font-size: 13px;
-  color: var(--osnova-color-text);
+  color: var(--queryn-color-text);
 }
 
 /* Screen reader only */
@@ -873,13 +873,13 @@ globalThis.window.osnova = {
 }
 
 /* Dark mode: wells на stroke, не fill */
-:root[data-osnova-theme="dark"] .kg-well {
+:root[data-queryn-theme="dark"] .kg-well {
   fill: transparent;
-  stroke: var(--osnova-color-border-soft);
+  stroke: var(--queryn-color-border-soft);
   stroke-opacity: 0.6;
 }
-:root[data-osnova-theme="dark"] .kg-well--active {
-  stroke: var(--osnova-color-border-accent);
+:root[data-queryn-theme="dark"] .kg-well--active {
+  stroke: var(--queryn-color-border-accent);
   stroke-opacity: 1;
 }
 ```

@@ -3,18 +3,18 @@ authority: normative
 lifecycle: active
 ---
 
-# Roadmap Osnova Reborn
+# Roadmap Queryn
 
-Статусы ниже сверены с текущими исходниками `osnova-spec`, `osnova-core`,
-`osnova-runtime` и `osnova-desktop`. Готово означает, что основной контракт и
+Статусы ниже сверены с текущими исходниками `queryn-spec`, `queryn-core`,
+`queryn-runtime` и `queryn-desktop`. Готово означает, что основной контракт и
 рабочий путь уже присутствуют в коде. Частично означает, что базовая реализация
 есть, но целевой продуктовый слой ещё не завершён.
 
 | Фаза | Статус | Что подтверждено кодом |
 | --- | --- | --- |
 | 1. Нормативная основа | Готово | Формат проекта 0.2, миграция из 0.1 и ключевые продуктовые и архитектурные ADR зафиксированы в документации и спецификации. |
-| 2. Доменное ядро | Готово | `@osnova/project` работает с operation-generated артефактами, сессиями, связями, обычными файлами и атомарной публикацией результатов. Нативные заметки и assets остаются обычными файлами. |
-| 3. Runtime control plane | Готово | `osnova-runtime` предоставляет локальный versioned RPC, `JobManager`, `OperationRegistry`, policy, восстановление jobs и CLI для проектов, операций, контекста, артефактов, моделей и заданий. Полного headless-сценария агентного чата в CLI нет. |
+| 2. Доменное ядро | Готово | `@queryn/project` работает с operation-generated артефактами, сессиями, связями, обычными файлами и атомарной публикацией результатов. Нативные заметки и assets остаются обычными файлами. |
+| 3. Runtime control plane | Готово | `queryn-runtime` предоставляет локальный versioned RPC, `JobManager`, `OperationRegistry`, policy, восстановление jobs и CLI для проектов, операций, контекста, артефактов, моделей и заданий. Полного headless-сценария агентного чата в CLI нет. |
 | 4. Экосистема расширений | Готово | Extension Manifest v1, SDK, проверка пакетов, целостность, staging, активация, rollback, permissions и process, OCI, remote и MCP runtime присутствуют в runtime и SDK. MCP здесь означает прямой runtime API и тестовый путь, а desktop `mcp.server.*` RPC dispatch пока отсутствует. |
 | 5. Контекст и модели | Частично | Есть project-scoped context, compact/expanded envelope, connectors, локальные и облачные providers и управление model dependencies. Встроенная конфигурация ограничена OpenAI-compatible endpoint, другие типы требуют adapter расширения. Подписанный публичный каталог и цельный пользовательский поток синхронизации ещё не завершены. |
 | 6. Агентная оркестрация | Готово | Работает единый диалоговый tool-loop `AgentKernel` через `agent.chat` с видимой активностью, ограничениями шага и времени, per-operation approvals, provenance для опубликованных результатов и сохранением событий сессии. Отдельный AgentPlan и pipeline-движок не являются частью текущего продукта. |

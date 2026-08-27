@@ -12,11 +12,11 @@ lifecycle: active
 
 | Поток | Основные точки реализации |
 | --- | --- |
-| Выполнение операции | `osnova-runtime/src/operation-service.ts`, `job-manager.ts`, `runtime-supervisor.ts`, `artifact-ingestor.ts` |
+| Выполнение операции | `queryn-runtime/src/operation-service.ts`, `job-manager.ts`, `runtime-supervisor.ts`, `artifact-ingestor.ts` |
 | Агентный tool loop | `agent-orchestrator.ts`, `agent-kernel.ts`, `operation-service.ts` |
-| Установка расширения | `extension-manager.ts`, `@osnova/plugin-sdk` |
+| Установка расширения | `extension-manager.ts`, `@queryn/plugin-sdk` |
 | Context envelope | `context-broker.ts`, `extension-manager.ts` для custom provider |
-| Открытие, усыновление и миграция | `project-service.ts`, `@osnova/project` |
+| Открытие, усыновление и миграция | `project-service.ts`, `@queryn/project` |
 | Desktop IPC | `preload/index.ts`, `main/index.ts`, `main/services/runtime-service.ts`, `rpc-server.ts` |
 
 ## 1. Выполнение операции {#operation-execution}
@@ -40,7 +40,7 @@ sequenceDiagram
     participant Tool as Builtin, process, OCI или remote
     participant Outbox as Изолированный outbox
     participant Ingestor as ArtifactIngestor
-    participant Project as @osnova/project
+    participant Project as @queryn/project
     participant Session as Session events
 
     Caller->>Rpc: operation.invoke(projectPath, operationId, arguments)
@@ -182,7 +182,7 @@ sequenceDiagram
     participant Rpc as rpc-server
     participant Manager as ExtensionManager
     participant Package as Extension package
-    participant Sdk as @osnova/plugin-sdk
+    participant Sdk as @queryn/plugin-sdk
     participant Staging as Staging directory
     participant VersionStore as Installed version tree
     participant Active as active.json
@@ -194,7 +194,7 @@ sequenceDiagram
     Manager->>Manager: проверить maxPackageBytes и package format
     Manager->>Sdk: validateExtensionManifest(manifest)
     Sdk-->>Manager: valid или список ошибок
-    Manager->>Manager: проверить hostVersion и osnova.minVersion
+    Manager->>Manager: проверить hostVersion и queryn.minVersion
     Manager->>Manager: verifyPackageIntegrity
 
     alt подпись передана
@@ -236,7 +236,7 @@ sequenceDiagram
 
 Иммунитет версии обеспечивается `integrity` из `.install.json`. Подключение к
 проекту выполняется отдельной операцией: она добавляет требование в
-`osnova.json`, обновляет `.osnova/extensions/lock.json` и выдаёт локальные
+`queryn.json`, обновляет `.queryn/extensions/lock.json` и выдаёт локальные
 grants через `PolicyEngine`. CLI-команды `extension:install` и
 `extension:rollback` вызывают `ExtensionManager` напрямую, без `rpc-server`.
 
@@ -259,7 +259,7 @@ sequenceDiagram
     participant RuntimeCli as Runtime CLI
     participant Rpc as rpc-server
     participant Broker as ContextBroker
-    participant Project as @osnova/project
+    participant Project as @queryn/project
     participant Extension as ExtensionManager
     participant Policy as PolicyEngine
     participant Supervisor as RuntimeSupervisor
@@ -319,7 +319,7 @@ sequenceDiagram
 Встроенные режимы возвращают envelope с `providerVersion` вида
 `host.automatic/1`, `host.declarative/1` или `host.metadata/1`. Если материал
 помечен sensitive, допустимым получателем остаётся только `local`. Индекс
-поиска строится отдельно в `.osnova/index` и не становится содержимым
+поиска строится отдельно в `.queryn/index` и не становится содержимым
 переносимого контракта.
 
 ## 5. Открытие, усыновление и миграция проекта {#project-lifecycle}
@@ -338,20 +338,20 @@ sequenceDiagram
     participant Main as MainProcess
     participant RuntimeRpc as rpc-server
     participant RuntimeProject as Runtime ProjectService
-    participant Core as @osnova/project
+    participant Core as @queryn/project
     participant Folder as Project folder
     participant Extensions as ExtensionManager
     participant Policy as PolicyEngine
     participant Lock as extensions lock
     participant User as Пользователь
 
-    alt в папке есть osnova.json
-        Renderer->>Preload: window.osnova.openProject(projectId)
+    alt в папке есть queryn.json
+        Renderer->>Preload: window.queryn.openProject(projectId)
         Preload->>Main: ipcRenderer.invoke(project:open)
         Main->>Core: desktop project-service.openProject(rootPath)
-        Core->>Folder: read osnova.json
+        Core->>Folder: read queryn.json
         Core->>Core: validate manifest и ensure format directories
-        Core-->>Main: OsnovaProject
+        Core-->>Main: QuerynProject
         Main->>RuntimeRpc: project.open(projectPath)
         RuntimeRpc->>RuntimeProject: open(projectPath)
         RuntimeProject->>Core: openProject(projectPath)
@@ -383,7 +383,7 @@ sequenceDiagram
         RuntimeRpc->>RuntimeProject: adopt(path, input)
         RuntimeProject->>Core: adoptProject(path, input)
         Core->>Folder: mkdir только недостающих директорий
-        Core->>Folder: write osnova.json через atomic rename
+        Core->>Folder: write queryn.json через atomic rename
         RuntimeProject->>Core: open(path) после усыновления
         RuntimeProject-->>RuntimeRpc: adopted project
         RuntimeRpc-->>Main: manifest
@@ -409,7 +409,7 @@ sequenceDiagram
         Main->>RuntimeRpc: project.migrate(dryRun=false)
         RuntimeRpc->>RuntimeProject: migrate(path, dryRun=false)
         RuntimeProject->>Core: migrateProject
-        Core->>Folder: сохранить backup manifest в .osnova/migrations
+        Core->>Folder: сохранить backup manifest в .queryn/migrations
         Core->>Folder: создать artifacts, sessions и relations
         Core->>Folder: атомарно записать formatVersion 0.2
         alt ошибка миграции
@@ -426,14 +426,14 @@ sequenceDiagram
     end
 ```
 
-В `osnova-core/packages/project/src/project.ts` чтение manifest также создаёт
+В `queryn-core/packages/project/src/project.ts` чтение manifest также создаёт
 только служебные директории, необходимые объявленной версии. В
 `migration.ts` исходный manifest сохраняется до изменения, а ошибка восстанавливает
 его байты и удаляет каталоги, созданные в рамках этой миграции.
 
 ## 6. Desktop IPC и local RPC {#desktop-ipc}
 
-Renderer вызывает только типизированный `window.osnova`. Main process проверяет
+Renderer вызывает только типизированный `window.queryn`. Main process проверяет
 доверенный frame, переводит идентификатор проекта в канонический путь и
 санитизирует ответ. `DesktopRuntimeService` лениво запускает runtime, а
 `RpcClient` добавляет bearer token к каждой JSON-RPC строке.
@@ -445,12 +445,12 @@ sequenceDiagram
     participant Preload as PreloadBridge
     participant Main as MainProcess
     participant DesktopRuntime as DesktopRuntimeService
-    participant RuntimeProcess as osnova-runtime process
+    participant RuntimeProcess as queryn-runtime process
     participant Client as RpcClient
     participant Server as rpc-server
-    participant Runtime as OsnovaRuntime
+    participant Runtime as QuerynRuntime
 
-    Renderer->>Preload: window.osnova.listJobs(projectId)
+    Renderer->>Preload: window.queryn.listJobs(projectId)
     Preload->>Main: ipcRenderer.invoke(job:list, projectId)
     Main->>Main: assertTrustedSender и requireOpenProject
     Main->>DesktopRuntime: request(job.list, projectPath)
@@ -487,5 +487,5 @@ sequenceDiagram
 
 Для файловых операций main process использует `project-service.ts` и
 `file-service.ts` напрямую, без обхода через runtime. Для runtime-операций
-канон транспортного уровня остаётся `osnova-rpc/1`, а события передаются по
+канон транспортного уровня остаётся `queryn-rpc/1`, а события передаются по
 тому же локальному соединению.

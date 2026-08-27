@@ -40,7 +40,7 @@ Install record содержит SHA-256 каждого файла. Несовп�
 
 ## Runtime
 
-- builtin доверен и подписан Osnova;
+- builtin доверен и подписан Queryn;
 - node-process получает defense-in-depth Node Permission Model, который не считается security boundary;
 - native-process требует высокого доверия и не обещает защиту от malicious code;
 - OCI запускается без project mount, Docker socket, root, capabilities и сети по умолчанию;

@@ -8,10 +8,10 @@ lifecycle: active
 Этот поток описывает первый вход в desktop и создание новой папки проекта. Его
 источник истины — текущие компоненты <code>LaunchSplash</code>, <code>AppShell</code>,
 <code>WorkspaceHome</code>, <code>ProjectsWidget</code> и <code>CreateProjectModal</code> в
-<code>osnova-desktop</code>.
+<code>queryn-desktop</code>.
 
-Osnova не создаёт скрытую базу проекта. При успешном создании <code>osnova-core</code>
-записывает <code>osnova.json</code> и служебные каталоги в выбранную папку, после чего
+Queryn не создаёт скрытую базу проекта. При успешном создании <code>queryn-core</code>
+записывает <code>queryn.json</code> и служебные каталоги в выбранную папку, после чего
 desktop открывает тот же проект в <code>ProjectWorkspace</code>.
 
 ## Поток

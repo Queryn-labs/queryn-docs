@@ -15,40 +15,40 @@ Workspace состоит из отдельных соседних репозит
 
 ~~~text
 osnova-foundation/
-├── osnova-spec/
+├── queryn-spec/
 │   ├── schemas/                 # JSON Schema и формат проекта
 │   ├── contract/               # контракты и сгенерированные типы
 │   ├── protocol/               # протоколы runtime и инструментов
 │   └── scripts/                # генерация, verify и проверки документации
-├── osnova-core/
+├── queryn-core/
 │   └── packages/
 │       ├── types/              # базовые типы
 │       ├── manifest/           # манифест проекта и расширения
 │       ├── validation/         # проверка данных
 │       └── project/             # операции с папкой проекта
-├── osnova-plugin-sdk/
+├── queryn-sdk/
 │   ├── src/                    # SDK, CLI и testkit
 │   └── templates/              # шаблоны автора расширения
-├── osnova-runtime/
+├── queryn-runtime/
 │   ├── src/                    # supervisor, jobs, policy, agent, RPC, CLI
 │   └── dist/                   # результат build, не исходный контракт
-├── osnova-desktop/
+├── queryn-desktop/
 │   └── src/
 │       ├── main/               # Electron main и IPC handlers
-│       ├── preload/            # window.osnova bridge
+│       ├── preload/            # window.queryn bridge
 │       └── renderer/           # React UI
-├── osnova-plugins/
+├── queryn-extensions/
 │   ├── catalog/                # registry расширений
 │   ├── examples/               # проверяемые пакеты
 │   └── scripts/                # validation и runtime E2E
-└── osnova-docs/
+└── queryn-docs/
     └── docs/                   # сайт VitePress
 ~~~
 
-Workspace-файлы отражают реальные связи. <code>osnova-core</code> включает
-<code>packages/*</code>. <code>osnova-runtime</code> подключает core packages
-и SDK. <code>osnova-desktop</code> подключает core packages, SDK и runtime.
-<code>osnova-plugins</code> подключает SDK. У каждого каталога есть свой
+Workspace-файлы отражают реальные связи. <code>queryn-core</code> включает
+<code>packages/*</code>. <code>queryn-runtime</code> подключает core packages
+и SDK. <code>queryn-desktop</code> подключает core packages, SDK и runtime.
+<code>queryn-extensions</code> подключает SDK. У каждого каталога есть свой
 <code>pnpm-lock.yaml</code>.
 
 ## Базовый порядок сборки
@@ -57,12 +57,12 @@ Workspace-файлы отражают реальные связи. <code>osnova-
 репозиториях, затем строятся пакеты, на которые ссылается следующий слой:
 
 ~~~bash
-cd osnova-spec && pnpm install && pnpm generate && pnpm verify
-cd ../osnova-core && pnpm install && pnpm build
-cd ../osnova-plugin-sdk && pnpm install && pnpm build
-cd ../osnova-runtime && pnpm install && pnpm build
-cd ../osnova-desktop && pnpm install && pnpm typecheck
-cd ../osnova-plugins && pnpm install
+cd queryn-spec && pnpm install && pnpm generate && pnpm verify
+cd ../queryn-core && pnpm install && pnpm build
+cd ../queryn-sdk && pnpm install && pnpm build
+cd ../queryn-runtime && pnpm install && pnpm build
+cd ../queryn-desktop && pnpm install && pnpm typecheck
+cd ../queryn-extensions && pnpm install
 ~~~
 
 Команды <code>cd</code> в этом примере последовательны: после каждой строки
@@ -73,30 +73,30 @@ cd ../osnova-plugins && pnpm install
 
 | Репозиторий | Команды из package scripts | Что делает |
 | --- | --- | --- |
-| <code>osnova-spec</code> | <code>pnpm test</code> | Запускает Node test для скриптов |
+| <code>queryn-spec</code> | <code>pnpm test</code> | Запускает Node test для скриптов |
 |  | <code>pnpm verify</code> | Проверяет контракты |
 |  | <code>pnpm generate</code> | Генерирует контракты |
 |  | <code>pnpm docs:check</code> | Запускает проверку документации |
 |  | <code>pnpm docs:map</code> | Запускает проверку карты модулей документации |
-| <code>osnova-core</code> | <code>pnpm build</code> | Очищает dist и компилирует types, manifest, validation, project |
+| <code>queryn-core</code> | <code>pnpm build</code> | Очищает dist и компилирует types, manifest, validation, project |
 |  | <code>pnpm test</code> | Сначала выполняет pretest, затем Vitest |
 |  | <code>pnpm lint</code> | TypeScript-проверка без emit |
-| <code>osnova-plugin-sdk</code> | <code>pnpm build</code> | Собирает SDK |
+| <code>queryn-sdk</code> | <code>pnpm build</code> | Собирает SDK |
 |  | <code>pnpm typecheck</code> | TypeScript-проверка без emit |
 |  | <code>pnpm test</code> | Сначала выполняет pretest, затем build и selftest |
-| <code>osnova-runtime</code> | <code>pnpm build</code> | Пересобирает <code>dist</code> runtime |
+| <code>queryn-runtime</code> | <code>pnpm build</code> | Пересобирает <code>dist</code> runtime |
 |  | <code>pnpm typecheck</code> | TypeScript-проверка без emit |
 |  | <code>pnpm test</code> | Сначала выполняет pretest, затем build, тестовую компиляцию и Node test |
 |  | <code>pnpm doctor</code> | Запускает <code>node dist/cli.js doctor</code> |
 |  | <code>pnpm selftest</code> | Запускает временный end-to-end selftest runtime |
-| <code>osnova-desktop</code> | <code>pnpm dev</code> | Запускает Electron через electron-vite; перед этим <code>predev</code> проверяет Electron |
+| <code>queryn-desktop</code> | <code>pnpm dev</code> | Запускает Electron через electron-vite; перед этим <code>predev</code> проверяет Electron |
 |  | <code>pnpm build</code> | TypeScript-проверка и electron-vite build |
 |  | <code>pnpm typecheck</code> | TypeScript-проверка |
 |  | <code>pnpm test</code> | Запускает тест slug |
 |  | <code>pnpm preview</code> | Electron preview; перед этим <code>prepreview</code> проверяет Electron |
-| <code>osnova-plugins</code> | <code>pnpm test</code> | Проверяет манифесты примеров и каталог |
+| <code>queryn-extensions</code> | <code>pnpm test</code> | Проверяет манифесты примеров и каталог |
 |  | <code>pnpm test:runtime</code> | Запускает runtime E2E для advanced media tool |
-| <code>osnova-docs</code> | <code>pnpm dev</code> | Запускает VitePress dev server |
+| <code>queryn-docs</code> | <code>pnpm dev</code> | Запускает VitePress dev server |
 |  | <code>pnpm build</code> | Собирает production-сайт |
 |  | <code>pnpm preview</code> | Показывает production-сборку |
 
@@ -107,35 +107,35 @@ cd ../osnova-plugins && pnpm install
 pretest:
 
 ~~~bash
-node ../osnova-spec/scripts/generate-contracts.mjs --check
-node ../osnova-spec/scripts/check-comment-hygiene.mjs --check --repo <repo-name>
+node ../queryn-spec/scripts/generate-contracts.mjs --check
+node ../queryn-spec/scripts/check-comment-hygiene.mjs --check --repo <repo-name>
 ~~~
 
 | Репозиторий | Pretest | Что должно быть доступно |
 | --- | --- | --- |
-| <code>osnova-core</code> | Проверка сгенерированных контрактов и comment hygiene для <code>osnova-core</code> | Собранный или установленный <code>osnova-spec</code> рядом |
-| <code>osnova-plugin-sdk</code> | Те же две проверки с <code>--repo osnova-plugin-sdk</code> | <code>osnova-spec</code>; тест после pretest сам собирает SDK |
-| <code>osnova-runtime</code> | Те же две проверки с <code>--repo osnova-runtime</code> | <code>osnova-spec</code>, dist core packages и dist SDK для сборки и тестов |
-| <code>osnova-desktop</code> | Отдельного <code>pretest</code> нет | Собранные локальные core/runtime/SDK-пакеты для корректного typecheck и Electron-сборки |
-| <code>osnova-spec</code> | Отдельного <code>pretest</code> нет | Свои scripts и devDependencies |
-| <code>osnova-plugins</code> | Отдельного <code>pretest</code> нет | <code>test:runtime</code> требует dist SDK, runtime и core project |
-| <code>osnova-docs</code> | Отдельного <code>pretest</code> нет | Свои зависимости VitePress и Mermaid |
+| <code>queryn-core</code> | Проверка сгенерированных контрактов и comment hygiene для <code>queryn-core</code> | Собранный или установленный <code>queryn-spec</code> рядом |
+| <code>queryn-sdk</code> | Те же две проверки с <code>--repo queryn-sdk</code> | <code>queryn-spec</code>; тест после pretest сам собирает SDK |
+| <code>queryn-runtime</code> | Те же две проверки с <code>--repo queryn-runtime</code> | <code>queryn-spec</code>, dist core packages и dist SDK для сборки и тестов |
+| <code>queryn-desktop</code> | Отдельного <code>pretest</code> нет | Собранные локальные core/runtime/SDK-пакеты для корректного typecheck и Electron-сборки |
+| <code>queryn-spec</code> | Отдельного <code>pretest</code> нет | Свои scripts и devDependencies |
+| <code>queryn-extensions</code> | Отдельного <code>pretest</code> нет | <code>test:runtime</code> требует dist SDK, runtime и core project |
+| <code>queryn-docs</code> | Отдельного <code>pretest</code> нет | Свои зависимости VitePress и Mermaid |
 
 Флаг <code>--check</code> у генератора не переписывает контракты. Если он
 находит drift, сначала выполните согласованный <code>pnpm generate</code> в
-<code>osnova-spec</code>, проверьте diff и только затем повторите gate.
+<code>queryn-spec</code>, проверьте diff и только затем повторите gate.
 
 ## Быстрая проверка слоя
 
 ~~~bash
-cd osnova-core && pnpm test
-cd ../osnova-plugin-sdk && pnpm test
-cd ../osnova-runtime && pnpm selftest && pnpm test
-cd ../osnova-desktop && pnpm typecheck && pnpm test
-cd ../osnova-plugins && pnpm test
-cd ../osnova-docs && pnpm build
+cd queryn-core && pnpm test
+cd ../queryn-sdk && pnpm test
+cd ../queryn-runtime && pnpm selftest && pnpm test
+cd ../queryn-desktop && pnpm typecheck && pnpm test
+cd ../queryn-extensions && pnpm test
+cd ../queryn-docs && pnpm build
 ~~~
 
-Если менялся контракт в <code>osnova-spec</code>, перед этими командами
+Если менялся контракт в <code>queryn-spec</code>, перед этими командами
 повторите <code>pnpm generate</code> и <code>pnpm verify</code>. Команды не
 включают публикацию или установку пакетов во внешние каталоги.
