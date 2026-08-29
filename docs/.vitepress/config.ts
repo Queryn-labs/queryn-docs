@@ -53,8 +53,11 @@ const architectureSidebar = [
       { text: "Desktop", link: "/architecture/desktop" },
       { text: "Local First", link: "/architecture/local-first" },
       { text: "Система расширений", link: "/architecture/plugin-system" },
+      { text: "Среды инструментов", link: "/architecture/tool-runtime-dependencies" },
       { text: "Queryn Runtime", link: "/architecture/ai-runtime" },
       { text: "Runtime и безопасность", link: "/architecture/runtime-and-security" },
+      { text: "Просмотрщик материалов", link: "/architecture/material-viewers" },
+      { text: "Ошибки и диагностика", link: "/architecture/errors-and-diagnostics" },
       { text: "Артефакты, контекст и агент", link: "/architecture/artifacts-context-and-agent" },
       { text: "Версии и миграции", link: "/architecture/versioning-and-migrations" }
     ]
@@ -111,7 +114,10 @@ const adrSidebar = [
       { text: "0012 Unified Agent Loop", link: "/adr/adr-0012-unified-agent-loop" },
       { text: "0013 Agent Network Tools", link: "/adr/adr-0013-agent-network-tools" },
       { text: "0014 Равноправные desktop-цели", link: "/adr/adr-0014-equal-desktop-targets" },
-      { text: "0015 Каталог поставщиков моделей", link: "/adr/adr-0015-model-provider-catalog" }
+      { text: "0015 Каталог поставщиков моделей", link: "/adr/adr-0015-model-provider-catalog" },
+      { text: "0016 Среды инструментов", link: "/adr/adr-0016-extension-runtime-dependencies" },
+      { text: "0017 Host просмотрщика", link: "/adr/adr-0017-material-viewer-host" },
+      { text: "0018 Ошибки и диагностика", link: "/adr/adr-0018-errors-and-diagnostics" }
     ]
   }
 ];

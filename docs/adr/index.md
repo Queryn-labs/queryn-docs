@@ -29,6 +29,9 @@ Osnova. Номер и путь ADR стабильны. Если решение �
 | [0013](./adr-0013-agent-network-tools.md) | Сетевые инструменты агента | `accepted` | — |
 | [0014](./adr-0014-equal-desktop-targets.md) | Windows и macOS как равноправные desktop-цели | `accepted` | — |
 | [0015](./adr-0015-model-provider-catalog.md) | Каталог и жизненный цикл поставщиков моделей | `accepted` | — |
+| [0016](./adr-0016-extension-runtime-dependencies.md) | Среды исполнения и зависимости расширений | `accepted` | — |
+| [0017](./adr-0017-material-viewer-host.md) | Единый host просмотрщика материалов | `accepted` | — |
+| [0018](./adr-0018-errors-and-diagnostics.md) | Структурированные ошибки и диагностика | `accepted` | — |
 
 ## Правило замены
 
